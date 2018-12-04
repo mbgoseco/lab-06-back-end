@@ -12,8 +12,8 @@ app.listen(PORT, () => {
   console.log(`listening on ${PORT}`);
 });
 
-app.use(express.static('./'));
+app.use(express.static('./city-explorer-client'));
 
 app.get('/home', function(req, res) {
-  res.sendFile(`${__dirname}/city-explorer-client/index.html`);
+  res.sendFile(`${__dirname}/index.html`);
 });
