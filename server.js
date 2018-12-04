@@ -17,3 +17,21 @@ app.use(express.static('./city-explorer-client'));
 app.get('/home', function(req, res) {
   res.sendFile(`${__dirname}/index.html`);
 });
+
+app.get('/location', (req, res) => {
+  const locationData = searchToLatLong(req.query.data);
+  res.send(locationData);
+});
+
+function Location(data) {
+  this.formatted_query = data.formatted_address;
+  this.latitude = data.geometry.location.lat;
+  this.longitude = data.geometry.location.lng;
+}
+
+function searchToLatLong(query) {
+  const geoData = require('./data/geo.json');
+  const location = new Location(geoData.results[0]);
+  location.search_query = query;
+  return location;
+}
