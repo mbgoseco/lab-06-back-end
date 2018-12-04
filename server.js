@@ -11,3 +11,9 @@ app.use(cors());
 app.listen(PORT, () => {
   console.log(`listening on ${PORT}`);
 });
+
+app.use(express.static('./'));
+
+app.get('/home', function(req, res) {
+  res.sendFile(`${__dirname}/city-explorer-client/index.html`);
+});
