@@ -35,3 +35,20 @@ function searchToLatLong(query) {
   location.search_query = query;
   return location;
 }
+
+app.get('/weather', (req, res) => {
+  const weatherData = searchWeather(req.query.data);
+  res.send(weatherData);
+});
+
+function Weather(data) {
+  this.forecast = data.currently.summary;
+  this.current_time = data.currently.time;
+}
+
+function searchWeather(query) {
+  const weatherData = require('./data/weather.json');
+  const weather = new Weather(weatherData);
+  weather.search_query = query;
+  return weather;
+}
