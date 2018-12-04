@@ -42,13 +42,13 @@ app.get('/weather', (req, res) => {
 });
 
 function Weather(data) {
-  this.forecast = data.currently.summary;
-  this.current_time = data.currently.time;
+  this.forecast = data.summary;
+  this.current_time = data.time;
 }
 
 function searchWeather(query) {
   const weatherData = require('./data/weather.json');
-  const weather = new Weather(weatherData);
+  const weather = new Weather(weatherData.currently);
   weather.search_query = query;
   return weather;
 }
