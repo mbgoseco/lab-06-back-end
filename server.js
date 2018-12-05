@@ -2,8 +2,8 @@
 
 const express = require('express');
 const cors = require('cors');
+const superagent = require('superagent');
 require('dotenv').config();
-
 const PORT = process.env.PORT || 3000;
 const app = express();
 
@@ -11,6 +11,11 @@ app.use(cors());
 app.listen(PORT, () => {
   console.log(`listening on ${PORT}`);
 });
+
+function handleError(err, res) {
+  console.error(err);
+  if (res) res.status(500).send('This location is not a valid input');
+}
 
 app.use(express.static('./city-explorer-client'));
 
@@ -30,6 +35,7 @@ function Location(data) {
 }
 
 function searchToLatLong(query) {
+  if (!query) {console.error('500: Invalid location data');}
   const geoData = require('./data/geo.json');
   const location = new Location(geoData.results[0]);
   location.search_query = query;
@@ -47,6 +53,7 @@ function Weather(data) {
 }
 
 function searchWeather(query) {
+  if (!query) {console.error('500: Invalid location data');}
   const weatherData = require('./data/weather.json');
   const weather = new Weather(weatherData.currently);
   weather.search_query = query;
