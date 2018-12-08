@@ -24,6 +24,7 @@ app.get('/home', function(req, res) {
 });
 
 app.get('/location', (req, res) => {
+  console.log('my request object:', req.body);
   const locationData = searchToLatLong(req.query.data);
   res.send(locationData);
 });
@@ -39,6 +40,7 @@ function searchToLatLong(query) {
   const geoData = require('./data/geo.json');
   const location = new Location(geoData.results[0]);
   location.search_query = query;
+  console.log('Line 42 location:', location);
   return location;
 }
 
@@ -49,7 +51,7 @@ app.get('/weather', (req, res) => {
 
 function Weather(data) {
   this.forecast = data.summary;
-  this.current_time = data.time;
+  this.time = new Date(data.time * 1000).toDateString();
 }
 
 function searchWeather(query) {
@@ -57,5 +59,6 @@ function searchWeather(query) {
   const weatherData = require('./data/weather.json');
   const weather = new Weather(weatherData.currently);
   weather.search_query = query;
+  console.log('Line 61 weather:', weather);
   return weather;
 }

@@ -46,8 +46,9 @@ function displayMap(location) {
 }
 
 function getResource(resource, location) {
-  $.get(`${__API_URL__}/${resource }`, {data: location})
+  $.get(`${__API_URL__}/${resource}`, {data: location})
     .then(result => {
+      console.log('app.js Line 51 results:', result);
       compileTemplate(result, `${resource}-results`, `${resource}-results-template`);
     })
     .catch(error => {
@@ -60,6 +61,7 @@ function compileTemplate(input, sectionClass, templateId) {
 
   let template = Handlebars.compile($(`#${templateId}`).text());
 
+  console.log('app.js Line 63', input);
   input.forEach(element => {
     $(`.${sectionClass}`).append(template(element));
   })
